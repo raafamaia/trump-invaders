@@ -4,15 +4,14 @@ var Trump = function(scl, img) {
     this.speed = 2;
     this.xdir = 0;
     
-    this.width = map(this.scl, 0, this.scl, 0, 78);
-    this.height = map(this.scl, 0, this.scl, 0, 128);
-    
+    this.width = img.width * scl;
+    this.height = img.height * scl;
+
     this.x = width / 2;
     this.y = height - this.height / 2;
     
     this.show = function () {
         imageMode(CENTER);
-        
         image(this.img, this.x, this.y, this.width, this.height);
     }
     

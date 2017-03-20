@@ -3,12 +3,15 @@ var Brick = function(x, y, scl, img) {
     this.x = x;
     this.y = y;
     this.img = img;
-    this.scl = scl / 2;
+    this.scl = scl;
+    this.width = img.width * scl;
+    this.height = img.height * scl;
+
     this.speed = 4;
     
     this.show = function () {
         imageMode(CENTER);
-        image(this.img, this.x, this.y, this.scl, this.scl);
+        image(this.img, this.x, this.y, this.width, this.height);
     }
     
     this.move = function() {
@@ -16,9 +19,8 @@ var Brick = function(x, y, scl, img) {
     }
     
     this.hits = function(obj) {
-        var d = dist(this.x, this.y, obj.x, obj.y + obj.height / 2);
-        
-        return (d < (this.scl /2) + (obj.scl / 2));
+        var d = dist(this.x, this.y, obj.x, obj.y);
+        return (d < this.height / 2 + obj.height / 2);
     }
     
     

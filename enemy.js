@@ -3,12 +3,11 @@ var Enemy = function(x, y, scl, img) {
     this.x = x;
     this.y = y;
     this.img = img;
-    this.scl = scl / 2;
+    this.scl = scl;
     this.speed = 1;
     
-    this.width = map(this.scl, 0, this.scl, 0, 78);
-    this.height = map(this.scl, 0, this.scl, 0, 128);
-    
+    this.width = img.width * scl;
+    this.height = img.height * scl;
     
     this.show = function () {
         imageMode(CENTER);
@@ -20,15 +19,16 @@ var Enemy = function(x, y, scl, img) {
     }
     
     this.onRight = function() {
-        return ((this.x + scl / 2) > width);
+        return ((this.x + this.width / 2) > width);
     }
     
     this.onLeft = function(){
-        return ((this.x - this.scl / 2) < 0);
+        return ((this.x - this.width / 2) < 0);
     }
     
     this.shiftDown = function() {
-        this.y += this.scl;
+        this.y += this.height / 2;
+        this.speed += 0.2; //Increases speed
     }
     
     

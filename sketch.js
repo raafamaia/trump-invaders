@@ -18,21 +18,21 @@ function preload(){
      brickImg = loadImage("assets/brick.png");
      enemyImg = loadImage("assets/juan.png");
 
-    //bgImg = loadImage("assets/bg.png");
+    bgImg = loadImage("assets/bg.jpg");
 }
 
 function setup() {
-    createCanvas(window.innerWidth, window.innerHeight);
-    scl = 100;
+    createCanvas(bgImg.width, bgImg.height);
+    scl = 0.35;
     
     trump = new Trump(scl, trumpImg);
     for(var i = 0; i < 7; i++){
-        enemies.push(new Enemy(i * scl + scl + 50, 80, scl, enemyImg));
+        enemies.push(new Enemy(i * enemyImg.width + enemyImg.width, enemyImg.height / 2, scl, enemyImg));
     }
 }
 
 function draw() {
-    //background(bgImg, 10);
+    //background(bgImg);
     background(0);
     
     trump.move();
@@ -40,7 +40,6 @@ function draw() {
     
     for(let brick of bricks){
         if(brick.y < 0) {
-            //TODO - remover tijolo quando sair da tela;
             bricks = bricks.filter(item => item !== brick);
         }
         
@@ -101,7 +100,7 @@ function keyPressed() {
             trump.dir(1);
             break;
         case SPACE:
-            var brick = new Brick(trump.x, trump.y - trump.height / 2, scl, brickImg);
+            var brick = new Brick(trump.x, trump.y - (trump.height / 2) - (brickImg.height * scl / 2), scl, brickImg);
             bricks.push(brick);
     }
     
