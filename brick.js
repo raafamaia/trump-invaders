@@ -4,10 +4,10 @@ var Brick = function(x, y, scl, img) {
     this.y = y;
     this.img = img;
     this.scl = scl;
-    this.width = (img.width * scl) / 2;
+    this.width = (img.width * scl) / 4;
     this.height = img.height * scl;
 
-    this.speed = 4;
+    this.speed = 6;
     
     this.show = function () {
         imageMode(CENTER);

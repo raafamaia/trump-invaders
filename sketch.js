@@ -75,8 +75,6 @@ function draw() {
         //}
     }
     
-    
-    
     enemies.forEach(function(row){
             row.forEach(function(element){
                if(element.onRight()){
@@ -103,7 +101,7 @@ function draw() {
     
     var time = new Date().getTime();
     
-    if(time > lastCycle + 500){
+    if(time > lastCycle + 1000){
         for(let enemy_row of enemies){
             enemy_row.forEach(function(element){
                 element.show();
