@@ -4,7 +4,7 @@ var Brick = function(x, y, scl, img) {
     this.y = y;
     this.img = img;
     this.scl = scl;
-    this.width = img.width * scl;
+    this.width = (img.width * scl) / 2;
     this.height = img.height * scl;
 
     this.speed = 4;

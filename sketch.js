@@ -11,7 +11,10 @@ var enemies = [];
 
 var SPACE = 32;
 var direction = 1;
-var shift = false;
+var shift = false
+var dir = true;
+
+var lastCycle = 0;
 
 function preload(){
      trumpImg = loadImage("assets/trump.png");
@@ -22,12 +25,19 @@ function preload(){
 }
 
 function setup() {
-    createCanvas(bgImg.width, bgImg.height);
+    createCanvas(500, 640);
     scl = 0.35;
     
     trump = new Trump(scl, trumpImg);
-    for(var i = 0; i < 7; i++){
-        enemies.push(new Enemy(i * enemyImg.width + enemyImg.width, enemyImg.height / 2, scl, enemyImg));
+    //Create enemies
+    
+    for(var i = 0; i < 5; i++) {
+        var enemy_row = [];
+        for(var j = 0; j < 11; j++){
+            var enemy = new Enemy(((j + 1) * ((enemyImg.width * scl) + ((enemyImg.width * scl) / 2))), i * (enemyImg.height * scl) + ((enemyImg.height * scl) / 2), scl, enemyImg);
+            enemy_row.push(enemy);
+        }
+        enemies[i] = enemy_row;
     }
 }
 
@@ -46,36 +56,70 @@ function draw() {
         brick.move();
         brick.show();
         
-        for(let enemy of enemies){
-            
-            if(brick.hits(enemy)){
-                bricks  = bricks.filter(item => item !== brick);
-                enemies = enemies.filter(item => item !== enemy);
+        for(var i = enemies.length - 1; i > -1 ; i--){
+            for(var j = enemies[i].length - 1; j > -1; j--){
+                if(brick.hits(enemies[i][j])){
+                    bricks = bricks.filter(item => item !== brick);
+                    enemies[i] = enemies[i].filter(item => item !== enemies[i][j]);
+                }
             }
-            
         }
+
+        //for(let enemy_row of enemies){
+        //    enemy_row.forEach(function(enemy){
+        //        if(brick.hits(enemy)){
+        //            bricks  = bricks.filter(item => item !== brick);
+        //            enemies = enemies.filter(item => item !== enemy);
+        //        }    
+        //    });
+        //}
     }
     
     
     
-    enemies.forEach(function(element){
-        if(element.onRight() || element.onLeft()){
-            direction *= -1;
-            shift = true;
-        }
+    enemies.forEach(function(row){
+            row.forEach(function(element){
+               if(element.onRight()){
+                direction *= -1;
+                shift = true;
+                dir = true;
+            }else if (element.onLeft()){
+                direction *= -1;
+                shift = true;
+                dir = false;
+            }
+        })
     });
     
     if(shift){
-        enemies.forEach(function(element){
-            element.shiftDown();
+        enemies.forEach(function(row){
+            row.forEach(function(element){
+                element.shiftDown(dir);    
+            })
         });
         shift = false;
     }
     
-    for(let enemy of enemies){
-        enemy.move(direction);    
-        enemy.show();
+    
+    var time = new Date().getTime();
+    
+    if(time > lastCycle + 500){
+        for(let enemy_row of enemies){
+            enemy_row.forEach(function(element){
+                element.show();
+                element.move(direction);
+            })
+           
+            lastCycle = time;
+        }
+    }else{
+        for(let enemy_row of enemies){
+            enemy_row.forEach(function(element){
+               element.show(); 
+            })
+        }
     }
+    
 }
 
 function keyReleased() {
