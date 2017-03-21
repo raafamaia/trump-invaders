@@ -1,5 +1,5 @@
 var Trump = function(scl, img) {
-    this.img = img
+    
     this.scl = scl;
     this.speed = 2;
     this.xdir = 0;
@@ -10,19 +10,23 @@ var Trump = function(scl, img) {
     this.x = width / 2;
     this.y = height - this.height / 2;
     
-    this.show = function () {
-        imageMode(CENTER);
-        image(this.img, this.x, this.y, this.width, this.height);
-    }
+    this.img = img;
     
+    this.sprite;
+    
+    this.init = function() {
+        imageMode(CENTER);
+        this.img.resize(this.width, this.height);
+        this.sprite = createSprite(this.x, this.y, this.width, this.height);
+        this.sprite.addImage(this.img);
+    }
+
     this.move = function() {
-        this.x += this.xdir;
+        this.sprite.position.x += this.xdir;
     }
     
     this.dir = function(dir) {
-        //this.x += dir * this.scl;
         this.xdir = dir * this.speed;
+        this.sprite.mirrorX(dir)
     }
-    
-    
 }

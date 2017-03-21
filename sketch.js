@@ -16,10 +16,16 @@ var dir = true;
 
 var lastCycle = 0;
 
+var juanAnimation;
+var trumpSprite; 
+
 function preload(){
-     trumpImg = loadImage("assets/trump.png");
-     brickImg = loadImage("assets/brick.png");
-     enemyImg = loadImage("assets/juan.png");
+    juanAnimation = loadAnimation("assets/juan-1.png", "assets/juan-2.png");
+    
+    
+    trumpImg = loadImage("assets/trump.png");
+    brickImg = loadImage("assets/brick.png");
+    enemyImg = loadImage("assets/juan.png");
 
     bgImg = loadImage("assets/bg.jpg");
 }
@@ -29,8 +35,9 @@ function setup() {
     scl = 0.35;
     
     trump = new Trump(scl, trumpImg);
-    //Create enemies
+    trump.init();
     
+    //Create enemies
     for(var i = 0; i < 5; i++) {
         var enemy_row = [];
         for(var j = 0; j < 11; j++){
@@ -46,7 +53,7 @@ function draw() {
     background(0);
     
     trump.move();
-    trump.show();
+    //trump.show();
     
     for(let brick of bricks){
         if(brick.y < 0) {
@@ -101,7 +108,7 @@ function draw() {
     
     var time = new Date().getTime();
     
-    if(time > lastCycle + 1000){
+    if(time > lastCycle + 100){
         for(let enemy_row of enemies){
             enemy_row.forEach(function(element){
                 element.show();
@@ -117,6 +124,8 @@ function draw() {
             })
         }
     }
+    
+    drawSprites();
     
 }
 
