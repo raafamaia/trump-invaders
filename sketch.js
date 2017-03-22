@@ -13,6 +13,7 @@ var SPACE = 32;
 var direction = 1;
 var shift = false
 var dir = true;
+var shifted = false;
 
 var lastCycle = 0;
 
@@ -44,7 +45,7 @@ function setup() {
     
     for(var i = 0; i < 5; i++) {
         for(var j = 0; j < 11; j++){
-            enemy = new Enemy(((j + 1) * ((enemyImg.width * scl) + ((enemyImg.width * scl) / 2))), i * (enemyImg.height * scl) + ((enemyImg.height * scl) / 2), scl, enemyImg);
+            enemy = new Enemy(((j + 1) * ((enemyImg.width * scl) + ((enemyImg.width * scl) / 2))), i * (enemyImg.height * scl) + ((enemyImg.height * scl) / 2), scl, juanAnimation.clone());
             enemy.init();
             enemies.push(enemy);
             enemy = null;
@@ -73,6 +74,7 @@ function draw() {
 
     }
     
+    
     enemies.forEach(function(element){
        if(element.onRight()) {
             direction *= -1;
@@ -84,7 +86,8 @@ function draw() {
             dir = false;
         }
     });
-    
+
+   
     if(shift) {
         enemies.forEach(function(element){
                 element.shiftDown(dir);    
@@ -95,25 +98,18 @@ function draw() {
     
     var time = new Date().getTime();
     
-    if(time > lastCycle + 100) {
+    if(time >= lastCycle + 650) {
         
         enemies.forEach(function(element){
             element.move(direction);
-        })
+        });
            
         lastCycle = time;
         
-    } else {
-        enemies.forEach(function(element){
-           //element.show(); 
-        });
     }
     
     
     drawSprites();
-    //enemies.forEach(function(element){
-    //   element.sprite.draw(); 
-    //})
     
 }
 
