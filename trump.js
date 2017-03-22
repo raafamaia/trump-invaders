@@ -20,6 +20,10 @@ var Trump = function(scl, img) {
         this.sprite = createSprite(this.x, this.y, this.width, this.height);
         this.sprite.addImage(this.img);
     }
+    
+    this.show = function() {
+        this.sprite.draw();
+    }
 
     this.move = function() {
         this.sprite.position.x += this.xdir;
@@ -27,6 +31,6 @@ var Trump = function(scl, img) {
     
     this.dir = function(dir) {
         this.xdir = dir * this.speed;
-        this.sprite.mirrorX(dir)
+        this.sprite.mirrorX(dir);
     }
 }

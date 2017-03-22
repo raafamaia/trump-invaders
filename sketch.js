@@ -28,6 +28,8 @@ function preload(){
     enemyImg = loadImage("assets/juan.png");
 
     bgImg = loadImage("assets/bg.jpg");
+    
+    enemies;
 }
 
 function setup() {
@@ -38,23 +40,22 @@ function setup() {
     trump.init();
     
     //Create enemies
+    var enemy; 
+    
     for(var i = 0; i < 5; i++) {
-        var enemy_row = [];
         for(var j = 0; j < 11; j++){
-            var enemy = new Enemy(((j + 1) * ((enemyImg.width * scl) + ((enemyImg.width * scl) / 2))), i * (enemyImg.height * scl) + ((enemyImg.height * scl) / 2), scl, enemyImg);
-            enemy_row.push(enemy);
+            enemy = new Enemy(((j + 1) * ((enemyImg.width * scl) + ((enemyImg.width * scl) / 2))), i * (enemyImg.height * scl) + ((enemyImg.height * scl) / 2), scl, enemyImg);
+            enemy.init();
+            enemies.push(enemy);
+            enemy = null;
         }
-        enemies[i] = enemy_row;
     }
 }
 
 function draw() {
     //background(bgImg);
     background(0);
-    
     trump.move();
-    //trump.show();
-    
     for(let brick of bricks){
         if(brick.y < 0) {
             bricks = bricks.filter(item => item !== brick);
@@ -62,45 +63,31 @@ function draw() {
         
         brick.move();
         brick.show();
-        
+   
         for(var i = enemies.length - 1; i > -1 ; i--){
-            for(var j = enemies[i].length - 1; j > -1; j--){
-                if(brick.hits(enemies[i][j])){
-                    bricks = bricks.filter(item => item !== brick);
-                    enemies[i] = enemies[i].filter(item => item !== enemies[i][j]);
-                }
+            if(brick.hits(enemies[i])) {
+                bricks = bricks.filter(item => item !== brick);
+                enemies = enemies.filter(item => item !== enemies[i]);
             }
         }
 
-        //for(let enemy_row of enemies){
-        //    enemy_row.forEach(function(enemy){
-        //        if(brick.hits(enemy)){
-        //            bricks  = bricks.filter(item => item !== brick);
-        //            enemies = enemies.filter(item => item !== enemy);
-        //        }    
-        //    });
-        //}
     }
     
-    enemies.forEach(function(row){
-            row.forEach(function(element){
-               if(element.onRight()){
-                direction *= -1;
-                shift = true;
-                dir = true;
-            }else if (element.onLeft()){
-                direction *= -1;
-                shift = true;
-                dir = false;
-            }
-        })
+    enemies.forEach(function(element){
+       if(element.onRight()) {
+            direction *= -1;
+            shift = true;
+            dir = true;
+        } else if (element.onLeft()) {
+            direction *= -1;
+            shift = true;
+            dir = false;
+        }
     });
     
-    if(shift){
-        enemies.forEach(function(row){
-            row.forEach(function(element){
+    if(shift) {
+        enemies.forEach(function(element){
                 element.shiftDown(dir);    
-            })
         });
         shift = false;
     }
@@ -108,24 +95,25 @@ function draw() {
     
     var time = new Date().getTime();
     
-    if(time > lastCycle + 100){
-        for(let enemy_row of enemies){
-            enemy_row.forEach(function(element){
-                element.show();
-                element.move(direction);
-            })
+    if(time > lastCycle + 100) {
+        
+        enemies.forEach(function(element){
+            element.move(direction);
+        })
            
-            lastCycle = time;
-        }
-    }else{
-        for(let enemy_row of enemies){
-            enemy_row.forEach(function(element){
-               element.show(); 
-            })
-        }
+        lastCycle = time;
+        
+    } else {
+        enemies.forEach(function(element){
+           //element.show(); 
+        });
     }
     
+    
     drawSprites();
+    //enemies.forEach(function(element){
+    //   element.sprite.draw(); 
+    //})
     
 }
 

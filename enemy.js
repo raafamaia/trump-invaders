@@ -9,38 +9,35 @@ var Enemy = function(x, y, scl, img) {
     this.height = img.height * scl;
     
     this.speed = this.width / 2;
+        
+    this.sprite;
     
-    this.show = function () {
-        imageMode(CENTER);
-        image(this.img, this.x, this.y, this.width, this.height);
+    this.init = function() {
+        this.img = Object.create(this.img);
+        this.img.resize(this.width, this.height);
+        this.sprite = createSprite(this.x, this.y, this.width, this.height);
+        this.sprite.addImage(this.img);
     }
     
     this.move = function(dir) {
-        this.x += this.speed * dir;
+        this.sprite.position.x += this.speed * dir;
     }
     
     this.onRight = function() {
-        return ((this.x + this.width / 2) > width);
+        return ((this.sprite.position.x + this.width / 2) > width);
     }
     
     this.onLeft = function(){
-        return ((this.x - this.width / 2) < 0);
+        return ((this.sprite.position.x - this.width / 2) < 0);
     }
     
     this.shiftDown = function(dir) {
-        this.y += this.height / 2;
+        this.sprite.position.y += this.height / 2;
         if(dir) {
-            this.x -= this.width / 2;
+            this.sprite.position.x -= this.width / 2;
         } else {
-            this.x += this.width / 2;
+            this.sprite.position.x += this.width / 2;
         }
-        
-        //if(dir) {
-        //    this.x = width - (this.width / 2) -1;
-        //} else {
-        //    this.x = 0 + (this.width / 2) + 1;
-        //}
-        //this.speed += 0.2; //Increases speed
     }
     
     
