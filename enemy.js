@@ -42,7 +42,7 @@ var Enemy = function(x, y, scl, anim) {
     
     this.shiftDown = function(dir) {
         this.sprite.position.y += this.height / 2;
-        this.sprite.animation.nextFrame();
+        this.sprite.animation.nextFrame(); //TODO -> change frame when enemy shift one line down ;
         if(dir) {
             this.sprite.position.x -= this.width / 2;
         } else {
