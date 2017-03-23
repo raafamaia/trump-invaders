@@ -7,7 +7,7 @@ var enemyImg;
 var bgImg;
 
 var bricks = [];
-var enemies = [];
+var enemies;
 
 var SPACE = 32;
 var direction = 1;
@@ -30,7 +30,7 @@ function preload(){
 
     bgImg = loadImage("assets/bg.jpg");
     
-    enemies;
+    enemies = new Group();
 }
 
 function setup() {
@@ -54,9 +54,9 @@ function setup() {
 }
 
 function draw() {
-    //background(bgImg);
     background(0);
     trump.move();
+    
     for(let brick of bricks){
         if(brick.y < 0) {
             bricks = bricks.filter(item => item !== brick);
@@ -71,30 +71,7 @@ function draw() {
                 enemies = enemies.filter(item => item !== enemies[i]);
             }
         }
-
     }
-    
-    
-    enemies.forEach(function(element){
-       if(element.onRight()) {
-            direction *= -1;
-            shift = true;
-            dir = true;
-        } else if (element.onLeft()) {
-            direction *= -1;
-            shift = true;
-            dir = false;
-        }
-    });
-
-   
-    if(shift) {
-        enemies.forEach(function(element){
-                element.shiftDown(dir);    
-        });
-        shift = false;
-    }
-    
     
     var time = new Date().getTime();
     
@@ -105,8 +82,29 @@ function draw() {
         });
            
         lastCycle = time;
-        
+    
+    
+        enemies.forEach(function(element){
+           if(element.onRight()) {
+                dir = true;
+                direction *= -1;
+                shift = true;
+            }else if (element.onLeft()){
+                dir = false;
+                direction *= -1;
+                shift = true;
+            }
+        });
+    
+       
+        if(shift) {
+            enemies.forEach(function(element){
+                    element.shiftDown(dir);    
+            });
+            shift = false;
+        }
     }
+    
     
     
     drawSprites();

@@ -27,7 +27,7 @@ var Enemy = function(x, y, scl, anim) {
     
     this.move = function(dir) {
         this.sprite.position.x += this.speed * dir;
-        this.sprite.animation.frameDelay = 38.5;
+        //this.sprite.animation.frameDelay = 38.5;
         //this.sprite.animation.changeFrame();
     }
     
@@ -41,11 +41,12 @@ var Enemy = function(x, y, scl, anim) {
     
     this.shiftDown = function(dir) {
         this.sprite.position.y += this.height / 2;
-        //if(dir) {
-        //    this.sprite.position.x -= this.width / 2;
-        //} else {
-        //    this.sprite.position.x += this.width / 2;
-        //}
+        
+        if(dir) {
+            this.sprite.position.x -= this.width / 2;
+        } else {
+            this.sprite.position.x += this.width / 2;
+        }
     }
     
     
