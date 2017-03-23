@@ -22,6 +22,7 @@ var trumpSprite;
 
 function preload(){
     juanAnimation = loadAnimation("assets/juan-1.png", "assets/juan-2.png");
+    juanAnimation.playing = false;
     
     
     trumpImg = loadImage("assets/trump.png");
@@ -34,7 +35,7 @@ function preload(){
 }
 
 function setup() {
-    createCanvas(500, 640);
+    createCanvas(508, 630);
     scl = 0.35;
     
     trump = new Trump(scl, trumpImg);
