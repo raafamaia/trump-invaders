@@ -59,6 +59,7 @@ function draw() {
     trump.move();
     
     for(let brick of bricks){
+        /* jshint loopfunc: true */
         if(brick.y < 0) {
             bricks = bricks.filter(item => item !== brick);
         }
