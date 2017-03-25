@@ -11,7 +11,7 @@ var enemies;
 
 var SPACE = 32;
 var direction = 1;
-var shift = false
+var shift = false;
 var dir = true;
 var shifted = false;
 
@@ -75,7 +75,6 @@ function draw() {
     }
     
     var time = new Date().getTime();
-    
     if(time >= lastCycle + 650) {
         
         enemies.forEach(function(element){
