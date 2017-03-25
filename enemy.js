@@ -5,11 +5,11 @@ var Enemy = function(x, y, scl, anim) {
     this.anim = anim;
     this.scl = scl;
     
-    this.width;
-    this.height;
+    this.width = null;
+    this.height = null;
     
-    this.speed;
-    this.sprite;
+    this.speed = null;
+    this.sprite = null;
     
     this.init = function() {
         //this.img = Object.create(this.img);
@@ -23,22 +23,22 @@ var Enemy = function(x, y, scl, anim) {
         this.height = (this.sprite.height * this.scl);
         this.speed = this.width / 2;
         
-    }
+    };
     
     this.move = function(dir) {
         this.sprite.position.x += this.speed * dir;
         this.sprite.animation.nextFrame();
         //this.sprite.animation.frameDelay = 38.5;
         //this.sprite.animation.changeFrame();
-    }
+    };
     
     this.onRight = function() {
         return ((this.sprite.position.x + this.width / 2) > width);
-    }
+    };
     
     this.onLeft = function(){
         return ((this.sprite.position.x - this.width / 2) < 0);
-    }
+    };
     
     this.shiftDown = function(dir) {
         this.sprite.position.y += this.height / 2;
@@ -50,7 +50,7 @@ var Enemy = function(x, y, scl, anim) {
         }
         
         
-    }
+    };
     
     
-}
+};

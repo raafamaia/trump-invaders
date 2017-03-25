@@ -12,25 +12,21 @@ var Trump = function(scl, img) {
     
     this.img = img;
     
-    this.sprite;
+    this.sprite = null;
     
     this.init = function() {
         imageMode(CENTER);
         this.img.resize(this.width, this.height);
         this.sprite = createSprite(this.x, this.y, this.width, this.height);
         this.sprite.addImage(this.img);
-    }
-    
-    this.show = function() {
-        this.sprite.draw();
-    }
+    };
 
     this.move = function() {
         this.sprite.position.x += this.xdir;
-    }
+    };
     
     this.dir = function(dir) {
         this.xdir = dir * this.speed;
         this.sprite.mirrorX(dir);
-    }
-}
+    };
+};
