@@ -6,7 +6,7 @@ var brickImg;
 var enemyImg;
 var bgImg;
 
-var bricks = [];
+var bricks;
 var enemies;
 
 var SPACE = 32;
@@ -32,6 +32,7 @@ function preload(){
     bgImg = loadImage("assets/bg.jpg");
     
     enemies = new Group();
+    bricks = new Group();
 }
 
 function setup() {
@@ -60,31 +61,25 @@ function draw() {
     
     for(let brick of bricks){
         /* jshint loopfunc: true */
-        if(brick.y < 0) {
+        if(brick.sprite.position.y < 0) {
             bricks = bricks.filter(item => item !== brick);
         }
         
-        brick.move();
-        brick.show();
-   
-        for(var i = enemies.length - 1; i > -1 ; i--){
-            if(brick.hits(enemies[i])) {
-                bricks = bricks.filter(item => item !== brick);
-                enemies = enemies.filter(item => item !== enemies[i]);
-            }
+        for(let enemy of enemies) {
+            brick.sprite.overlap(enemy.sprite, removeEnemy);
         }
     }
     
     var time = new Date().getTime();
-    if(time >= lastCycle + 650) {
+    if(time >= lastCycle + 1000) {
         
         enemies.forEach(function(element){
             element.move(direction);
         });
            
         lastCycle = time;
-    
-    
+
+
         enemies.forEach(function(element){
            if(element.onRight()) {
                 dir = true;
@@ -107,9 +102,19 @@ function draw() {
     }
     
     
-    
+    refreshGroups();
     drawSprites();
     
+}
+
+function removeEnemy(brick, enemy) {
+    enemy.remove();
+    brick.remove();
+}
+
+function refreshGroups() {
+    enemies = enemies.filter(item => item.sprite.removed !== true);
+    bricks = bricks.filter(item => item.sprite.removed !== true);
 }
 
 function keyReleased() {
@@ -134,7 +139,8 @@ function keyPressed() {
             trump.dir(1);
             break;
         case SPACE:
-            var brick = new Brick(trump.x, trump.y - (trump.height / 2) - (brickImg.height * scl / 2), scl, brickImg);
+            var brick = new Brick(trump.sprite.position.x, trump.sprite.position.y - (trump.height / 2) - (brickImg.height * scl / 2), scl, brickImg);
+            brick.init();
             bricks.push(brick);
     }
     

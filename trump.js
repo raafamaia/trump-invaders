@@ -15,7 +15,6 @@ var Trump = function(scl, img) {
     this.sprite = null;
     
     this.init = function() {
-        imageMode(CENTER);
         this.img.resize(this.width, this.height);
         this.sprite = createSprite(this.x, this.y, this.width, this.height);
         this.sprite.addImage(this.img);
