@@ -12,8 +12,6 @@ var Enemy = function(x, y, scl, anim) {
     this.sprite = null;
     
     this.init = function() {
-        //this.img = Object.create(this.img);
-        //this.img.resize(this.width, this.height);
         this.sprite = createSprite(this.x, this.y);
         this.sprite.addAnimation("normal", this.anim);
         
@@ -22,14 +20,11 @@ var Enemy = function(x, y, scl, anim) {
         this.width = (this.sprite.width * this.scl);
         this.height = (this.sprite.height * this.scl);
         this.speed = this.width / 2;
-        
     };
     
     this.move = function(dir) {
         this.sprite.position.x += this.speed * dir;
         this.sprite.animation.nextFrame();
-        //this.sprite.animation.frameDelay = 38.5;
-        //this.sprite.animation.changeFrame();
     };
     
     this.onRight = function() {
