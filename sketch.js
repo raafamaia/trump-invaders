@@ -18,19 +18,19 @@ var shifted = false;
 var lastCycle = 0;
 
 var juanAnimation;
-var trumpSprite; 
+var trumpSprite;
 
-function preload(){
+function preload() {
     juanAnimation = loadAnimation("assets/juan-1.png", "assets/juan-2.png");
     juanAnimation.playing = false;
-    
-    
+
+
     trumpImg = loadImage("assets/trump.png");
     brickImg = loadImage("assets/brick.png");
     enemyImg = loadImage("assets/juan.png");
 
     bgImg = loadImage("assets/bg.jpg");
-    
+
     enemies = new Group();
     bricks = new Group();
 }
@@ -38,15 +38,15 @@ function preload(){
 function setup() {
     createCanvas(508, 630);
     scl = 0.35;
-    
+
     trump = new Trump(scl, trumpImg);
     trump.init();
-    
+
     //Create enemies
-    var enemy; 
-    
-    for(var i = 0; i < 5; i++) {
-        for(var j = 0; j < 11; j++){
+    var enemy;
+
+    for (var i = 0; i < 5; i++) {
+        for (var j = 0; j < 11; j++) {
             enemy = new Enemy(((j + 1) * ((enemyImg.width * scl) + ((enemyImg.width * scl) / 2))), i * (enemyImg.height * scl) + ((enemyImg.height * scl) / 2), scl, juanAnimation.clone());
             enemy.init();
             enemies.push(enemy);
@@ -58,58 +58,64 @@ function setup() {
 function draw() {
     background(0);
     trump.move();
-    
-    for(let brick of bricks){
+
+    enemyShoot();
+
+    for (let brick of bricks) {
         /* jshint loopfunc: true */
-        if(brick.sprite.position.y < 0) {
+        if (brick.sprite.position.y < 0) {
             bricks = bricks.filter(item => item !== brick);
         }
-        
-        for(let enemy of enemies) {
+
+        for (let enemy of enemies) {
             brick.sprite.overlap(enemy.sprite, removeEnemy);
         }
     }
-    
+
     var time = new Date().getTime();
-    if(time >= lastCycle + 1000) {
-        
-        enemies.forEach(function(element){
+    if (time >= lastCycle + 1000) {
+
+        enemies.forEach(function (element) {
             element.move(direction);
         });
-           
+
         lastCycle = time;
 
 
-        enemies.forEach(function(element){
-           if(element.onRight()) {
+        enemies.forEach(function (element) {
+            if (element.onRight()) {
                 dir = true;
                 direction *= -1;
                 shift = true;
-            }else if (element.onLeft()){
+            } else if (element.onLeft()) {
                 dir = false;
                 direction *= -1;
                 shift = true;
             }
         });
-    
-       
-        if(shift) {
-            enemies.forEach(function(element){
-                    element.shiftDown(dir);    
+
+
+        if (shift) {
+            enemies.forEach(function (element) {
+                element.shiftDown(dir);
             });
             shift = false;
         }
     }
-    
-    
+
+
     refreshGroups();
     drawSprites();
-    
+
 }
 
 function removeEnemy(brick, enemy) {
     enemy.remove();
     brick.remove();
+}
+
+function enemyShoot() {
+//    enemies.filter()
 }
 
 function refreshGroups() {
@@ -118,7 +124,7 @@ function refreshGroups() {
 }
 
 function keyReleased() {
-    switch(keyCode){
+    switch (keyCode) {
         case LEFT_ARROW:
             trump.dir(0);
             break;
@@ -129,9 +135,9 @@ function keyReleased() {
 }
 
 function keyPressed() {
-    
-    switch(keyCode){
-        
+
+    switch (keyCode) {
+
         case LEFT_ARROW:
             trump.dir(-1);
             break;
@@ -139,10 +145,10 @@ function keyPressed() {
             trump.dir(1);
             break;
         case SPACE:
-            var brick = new Brick(trump.sprite.position.x, trump.sprite.position.y - (trump.height / 2) - (brickImg.height * scl / 2), scl, brickImg);
-            brick.init();
-            bricks.push(brick);
+            if (bricks.length < 3) {
+                var brick = new Bullet(trump.sprite.position.x, trump.sprite.position.y - (trump.height / 2) - (brickImg.height * scl / 2), scl, brickImg, 270);
+                brick.init();
+                bricks.push(brick);
+            }
     }
-    
-    
 }
