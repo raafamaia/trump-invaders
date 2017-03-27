@@ -1,7 +1,7 @@
 var Trump = function(scl, img) {
     
     this.scl = scl;
-    this.speed = 2;
+    this.speed = 5;
     this.xdir = 0;
     
     this.width = img.width * scl;

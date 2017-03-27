@@ -7,6 +7,7 @@ var enemyImg;
 var bgImg;
 
 var bricks;
+var enemyBullets;
 var enemies;
 
 var SPACE = 32;
@@ -16,14 +17,13 @@ var dir = true;
 var shifted = false;
 
 var lastCycle = 0;
-
+var timeInterval = 1000;
 var juanAnimation;
 var trumpSprite;
 
 function preload() {
     juanAnimation = loadAnimation("assets/juan-1.png", "assets/juan-2.png");
     juanAnimation.playing = false;
-
 
     trumpImg = loadImage("assets/trump.png");
     brickImg = loadImage("assets/brick.png");
@@ -33,6 +33,7 @@ function preload() {
 
     enemies = new Group();
     bricks = new Group();
+    enemyBullets = new Group();
 }
 
 function setup() {
@@ -59,8 +60,6 @@ function draw() {
     background(0);
     trump.move();
 
-    enemyShoot();
-
     for (let brick of bricks) {
         /* jshint loopfunc: true */
         if (brick.sprite.position.y < 0) {
@@ -72,8 +71,12 @@ function draw() {
         }
     }
 
+    for(let shoot of enemyBullets) {
+        trump.sprite.overlap(shoot.sprite, gameOver);
+    }
+
     var time = new Date().getTime();
-    if (time >= lastCycle + 1000) {
+    if (time >= lastCycle + timeInterval) {
 
         enemies.forEach(function (element) {
             element.move(direction);
@@ -101,6 +104,11 @@ function draw() {
             });
             shift = false;
         }
+
+        timeInterval -= 7;
+
+        enemyShoot();
+
     }
 
 
@@ -115,12 +123,24 @@ function removeEnemy(brick, enemy) {
 }
 
 function enemyShoot() {
-//    enemies.filter()
+    var enemy = enemies[Math.floor(random(0, enemies.length))];
+    var pew = new Bullet(enemy.sprite.position.x, enemy.sprite.position.y, scl, brickImg, 90);
+    pew.init();
+    enemyBullets.push(pew);
 }
 
 function refreshGroups() {
     enemies = enemies.filter(item => item.sprite.removed !== true);
     bricks = bricks.filter(item => item.sprite.removed !== true);
+}
+
+function gameOver() {
+    trump.sprite.remove();
+    textAlign(CENTER);
+    textSize(79);
+    fill(255);
+    text("GAME OVER", width / 2, height / 2);
+    noLoop();
 }
 
 function keyReleased() {
