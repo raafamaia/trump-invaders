@@ -2,6 +2,9 @@ var http = require('http');
 var fs = require('fs');
 var path = require('path');
 
+var port = 8080;
+var ip = '0.0.0.0';
+
 http.createServer(function(request, response){
     
     console.log('request starting...');
@@ -60,7 +63,7 @@ http.createServer(function(request, response){
     });
     
     
-}).listen(8080, '0.0.0.0');
+}).listen(port, ip);
 
-console.log("server started on localhost:8080");
+console.log("server started on " + ip + ":" + port);
 
