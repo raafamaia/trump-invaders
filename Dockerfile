@@ -1,6 +1,13 @@
-FROM nginx
+FROM node:argon
 
-RUN mkdir /etc/nginx/logs && touch /etc/nginx/logs/static.log
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-ADD ./nginx.conf /etc/nginx/conf.d/default.conf
-ADD /src /www
+#COPY packages.json /usr/src/app
+#RUN npm install
+
+COPY ./src/ /usr/src/app
+
+EXPOSE 8080
+
+CMD node server.js

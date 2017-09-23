@@ -60,7 +60,7 @@ http.createServer(function(request, response){
     });
     
     
-}).listen(8080, "localhost");
+}).listen(8080, '0.0.0.0');
 
 console.log("server started on localhost:8080");
 
