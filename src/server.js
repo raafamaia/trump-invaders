@@ -60,4 +60,7 @@ http.createServer(function(request, response){
     });
     
     
-}).listen(process.env.PORT, process.env.IP);
+}).listen(8080, "localhost");
+
+console.log("server started on localhost:8080");
+
