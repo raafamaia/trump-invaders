@@ -6,8 +6,8 @@ WORKDIR /usr/src/app
 #COPY packages.json /usr/src/app
 #RUN npm install
 
-COPY ./src/ /usr/src/app
+COPY ./src /usr/src/app
 
-EXPOSE 8080
+EXPOSE 80
 
 CMD node server.js

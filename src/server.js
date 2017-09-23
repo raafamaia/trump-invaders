@@ -2,11 +2,12 @@ var http = require('http');
 var fs = require('fs');
 var path = require('path');
 
-var port = 8080;
+var port = 8888;
 var ip = '0.0.0.0';
 
 http.createServer(function(request, response){
     
+  
     console.log('request starting...');
     
     var filePath = '.' + request.url;
