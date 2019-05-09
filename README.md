@@ -1,3 +1,7 @@
+# Docker
+docker run -d -p 8888:8888 rafmaia/trump-invaders
+
+
 # Trump Invaders
 
 A simple game, born from boredom and sarcasm, where you control trump, who's fighting those so called "invaders".
